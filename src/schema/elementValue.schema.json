@@ -1,0 +1,19 @@
+{
+  "id": "elementValue",
+  "allOf":  [
+    { "$ref": "entityNodeValue" },
+    {
+      "properties": {
+        "nodeType": {
+          "type": "string",
+          "enum": [ "element" ]
+        },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": [ "nodeType", "attributes" ]
+    }
+  ]
+}

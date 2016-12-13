@@ -1,0 +1,16 @@
+{
+  "id": "commentValue",
+  "allOf":  [
+    { "$ref": "entityNodeValue" },
+    {
+      "properties": {
+        "nodeType": {
+          "type": "string",
+          "enum": [ "comment" ]
+        },
+        "nodeValue": { "type": "string" }
+      },
+      "required": [ "nodeType", "nodeValue" ]
+    }
+  ]
+}

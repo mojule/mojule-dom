@@ -1,0 +1,15 @@
+{
+  "id": "documentValue",
+  "allOf":  [
+    { "$ref": "entityNodeValue" },
+    {
+      "properties": {
+        "nodeType": {
+          "type": "string",
+          "enum": [ "document" ]
+        }
+      },
+      "required": [ "nodeType" ]
+    }
+  ]
+}
