@@ -38,6 +38,22 @@ const stringify = ( node, depth = 0 ) => {
     depth++
   }
 
+  if( nodeType === 'documentType' ){
+    const { name, publicId, systemId } = node.value
+
+    html += `<!doctype ${ name }`
+
+    if( publicId ){
+      html += ` public "${ publicId }"`
+    }
+
+    if( systemId ){
+      html += ` "${ systemId }"`
+    }
+
+    html += '>'
+  }
+
   if( Array.isArray( node.children ) )
     node.children.forEach( child => html += stringify( child, depth ) )
 
