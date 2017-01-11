@@ -43,6 +43,26 @@ var stringify = function stringify(node) {
     })();
   }
 
+  if (nodeType === 'documentType') {
+    var _node$value2 = node.value,
+        name = _node$value2.name,
+        publicId = _node$value2.publicId,
+        systemId = _node$value2.systemId;
+
+
+    html += '<!doctype ' + name;
+
+    if (publicId) {
+      html += ' public "' + publicId + '"';
+    }
+
+    if (systemId) {
+      html += ' "' + systemId + '"';
+    }
+
+    html += '>';
+  }
+
   if (Array.isArray(node.children)) node.children.forEach(function (child) {
     return html += stringify(child, depth);
   });
