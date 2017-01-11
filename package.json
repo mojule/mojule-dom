@@ -1,6 +1,6 @@
 {
   "name": "mojule-dom",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A full virtual dom toolkit for working with HTML nodes etc",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "htmlparser2": "^3.9.2",
     "mojule-utils": "^0.1.1",
     "morphdom": "^2.2.1",
-    "mtype-node": "^0.1.4",
+    "mtype-node": "^0.1.5",
     "mtype-tv4": "^0.1.0"
   },
   "devDependencies": {
