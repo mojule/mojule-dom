@@ -68,7 +68,7 @@ const nodePlugins = fn => {
   }
 
   const accepts = ( fn, node, childNode ) => {
-    const isEmpty = fn.isEmpty( node )
+    const isEmpty = fn.isEmpty( fn, node )
 
     if( isEmpty ) return false
 
