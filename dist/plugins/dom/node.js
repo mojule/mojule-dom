@@ -69,7 +69,7 @@ var nodePlugins = function nodePlugins(fn) {
   };
 
   var accepts = function accepts(fn, node, childNode) {
-    var isEmpty = fn.isEmpty(node);
+    var isEmpty = fn.isEmpty(fn, node);
 
     if (isEmpty) return false;
 
