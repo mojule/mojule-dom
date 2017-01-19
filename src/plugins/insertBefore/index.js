@@ -1,22 +1,12 @@
 'use strict'
 
-// TODO add handling for text elements, eg combine them
-
 const insertBeforeWrapper = fn => {
   const originalInsertBefore = fn.insertBefore
 
   const insertBefore = ( fn, root, parentNode, childNode, referenceNode ) => {
+    // TODO
     // handle document fragments
-    if( fn.isDocumentFragment( childNode ) ){
-      const children = fn.getChildren( childNode )
-
-      children.forEach( child =>
-        originalInsertBefore( fn, root, parentNode, child, referenceNode )
-      )
-
-      return childNode
-    }
-
+    // handle combining text elements
     return originalInsertBefore( fn, root, parentNode, childNode, referenceNode )
   }
 

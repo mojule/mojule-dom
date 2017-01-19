@@ -1,22 +1,12 @@
 'use strict';
 
-// TODO add handling for text elements, eg combine them
-
 var insertBeforeWrapper = function insertBeforeWrapper(fn) {
   var originalInsertBefore = fn.insertBefore;
 
   var insertBefore = function insertBefore(fn, root, parentNode, childNode, referenceNode) {
+    // TODO
     // handle document fragments
-    if (fn.isDocumentFragment(childNode)) {
-      var children = fn.getChildren(childNode);
-
-      children.forEach(function (child) {
-        return originalInsertBefore(fn, root, parentNode, child, referenceNode);
-      });
-
-      return childNode;
-    }
-
+    // handle combining text elements
     return originalInsertBefore(fn, root, parentNode, childNode, referenceNode);
   };
 
