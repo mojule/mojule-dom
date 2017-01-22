@@ -8,15 +8,17 @@ var clone = utils.clone;
 
 
 var element = function element(fn) {
-  var attributes = function attributes(node, value) {
+  var attributes = function attributes(node, attributeMap) {
     fn.assertElement(node);
 
     var nodeValue = fn.value(node);
 
-    if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
-      nodeValue.attributes = value;
+    if ((typeof attributeMap === 'undefined' ? 'undefined' : _typeof(attributeMap)) === 'object') {
+      Object.keys(attributeMap).forEach(function (attributeName) {
+        var attributeValue = attributeMap[attributeName];
 
-      fn.value(node, nodeValue);
+        fn.attr(node, attributeName, attributeValue);
+      });
     }
 
     if (nodeValue.attributes === undefined) return {};
@@ -27,7 +29,7 @@ var element = function element(fn) {
   attributes.def = {
     argTypes: ['node', 'object?'],
     returnType: 'object',
-    requires: ['value', 'assertElement'],
+    requires: ['value', 'assertElement', 'attr'],
     categories: ['dom', 'attributes', 'plugins']
   };
 
@@ -60,7 +62,7 @@ var element = function element(fn) {
     if (value !== undefined) {
       if (nodeValue.attributes === undefined) nodeValue.attributes = {};
 
-      nodeValue.attributes[name] = value;
+      nodeValue.attributes[name] = value.toString();
 
       fn.value(node, nodeValue);
     }

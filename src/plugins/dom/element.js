@@ -5,15 +5,17 @@ const utils = require( 'mojule-utils' )
 const { clone } = utils
 
 const element = fn => {
-  const attributes = ( node, value ) => {
+  const attributes = ( node, attributeMap ) => {
     fn.assertElement( node )
 
     const nodeValue = fn.value( node )
 
-    if( typeof value === 'object' ){
-      nodeValue.attributes = value
+    if( typeof attributeMap === 'object' ){
+      Object.keys( attributeMap ).forEach( attributeName => {
+        const attributeValue = attributeMap[ attributeName ]
 
-      fn.value( node, nodeValue )
+        fn.attr( node, attributeName, attributeValue )
+      })
     }
 
     if( nodeValue.attributes === undefined )
@@ -25,7 +27,7 @@ const element = fn => {
   attributes.def = {
     argTypes: [ 'node', 'object?' ],
     returnType: 'object',
-    requires: [ 'value', 'assertElement' ],
+    requires: [ 'value', 'assertElement', 'attr' ],
     categories: [ 'dom', 'attributes', 'plugins' ]
   }
 
@@ -58,7 +60,7 @@ const element = fn => {
     if( value !== undefined ){
       if( nodeValue.attributes === undefined ) nodeValue.attributes = {}
 
-      nodeValue.attributes[ name ] = value
+      nodeValue.attributes[ name ] = value.toString()
 
       fn.value( node, nodeValue )
     }

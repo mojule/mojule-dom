@@ -27,7 +27,7 @@ isType.def = {
 var types = function types(fn) {
   var assertType = function assertType(node, typename) {
     if (!fn.isType(node, typename)) {
-      var result = validator.validate(node, schema[typename]);
+      var result = validator.validateMultiple(node, schema[typename]);
       var errors = JSON.stringify(result.errors);
 
       throw new TypeError('Expected node to be ' + typename + '; ' + errors);
