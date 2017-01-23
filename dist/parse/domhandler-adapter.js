@@ -1,46 +1,46 @@
-'use strict'
+'use strict';
 
-var EntityNode = require('mtype-node')
+var EntityNode = require('mtype-node');
 
 var DomHandler = function DomHandler(options) {
-  var state = State(options)
+  var state = State(options);
 
-  var handler = { state: state }
+  var handler = { state: state };
 
-  var api = Api(handler)
+  var api = Api(handler);
 
-  return api
-}
+  return api;
+};
 
 //default options
 var defaultOpts = {
   normalizeWhitespace: false
 };
 
-var whitespace = /\s+/g
+var whitespace = /\s+/g;
 
 var State = function State(options) {
-  options = options || defaultOpts
+  options = options || defaultOpts;
 
-  var dom = EntityNode('documentFragment')
-  var done = false
-  var tagStack = []
-  var parser = null
+  var dom = EntityNode('documentFragment');
+  var done = false;
+  var tagStack = [];
+  var parser = null;
 
   var state = {
     options: options, dom: dom, done: done, tagStack: tagStack, parser: parser
-  }
+  };
 
-  return state
+  return state;
 };
 
 var Api = function Api(handler) {
   var oninit = function oninit(parser) {
-    return handler.state.parser = parser
+    return handler.state.parser = parser;
   };
 
   var onreset = function onreset() {
-    var options = handler.state.options
+    var options = handler.state.options;
 
 
     handler.state = State(options);
