@@ -6,19 +6,19 @@ const utils = require( 'mojule-utils' )
 const { capitalizeFirstLetter } = utils
 
 const nodeMap = {
-  element: () => ({
+  element: () => ( {
     tagName: 'div',
     attributes: {}
   }),
-  comment: () => ({
+  comment: () => ( {
     nodeValue: '',
     isEmpty: true
   }),
-  text: () => ({
+  text: () => ( {
     nodeValue: '',
     isEmpty: true
   }),
-  documentType: () => ({
+  documentType: () => ( {
     name: 'html',
     publicId: '',
     systemId: '',
@@ -47,7 +47,7 @@ const createDomNode = ( fn, nodeType, value ) => {
   return node
 }
 
-const createDomNodeDef = ( nodeType, argTypes ) => ({
+const createDomNodeDef = ( nodeType, argTypes ) => ( {
   argTypes,
   returnType: 'node',
   requires: [ 'createNode', 'assert' + capitalizeFirstLetter( nodeType ) ],
@@ -58,13 +58,13 @@ const create = fn => {
   const createElement = ( tagName, attributes ) => {
     attributes = attributes || {}
 
-    return createDomNode( fn, 'element', { tagName, attributes } )
+    return createDomNode( fn, 'element', { tagName, attributes })
   }
 
   createElement.def = createDomNodeDef( 'element', [ 'string', 'object' ] )
 
   const createComment = nodeValue =>
-    createDomNode( fn, 'element', { nodeValue } )
+    createDomNode( fn, 'element', { nodeValue })
 
   createComment.def = createDomNodeDef( 'comment', [ 'string' ] )
 
@@ -84,7 +84,7 @@ const create = fn => {
   createText.def = createDomNodeDef( 'text', [ 'string' ] )
 
   const createDocumentType = ( name, publicId, systemId ) =>
-    createDomNode( fn, 'documentType', { name, publicId, systemId } )
+    createDomNode( fn, 'documentType', { name, publicId, systemId })
 
   createDocumentType.def =
     createDomNodeDef( 'documentType', [ 'string', 'string', 'string' ] )

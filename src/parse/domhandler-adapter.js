@@ -14,10 +14,10 @@ const DomHandler = options => {
 
 //default options
 const defaultOpts = {
-	normalizeWhitespace: false
+  normalizeWhitespace: false
 }
 
-const whitespace = /\s+/g;
+const whitespace = /\s+/g
 
 const State = options => {
   options = options || defaultOpts
@@ -85,12 +85,12 @@ const Api = handler => {
 
     const previousText = findPreviousText( handler )
 
-    if( previousText ){
+    if( previousText ) {
       previousText.value.nodeValue = normalize( previousText.nodeValue + data )
     } else {
       data = normalize( data )
 
-      const text = EntityNode( 'text', { nodeValue: data } )
+      const text = EntityNode( 'text', { nodeValue: data })
 
       addDomElement( handler, text )
     }
@@ -101,13 +101,13 @@ const Api = handler => {
 
     const lastTag = tagStack[ tagStack.length - 1 ]
 
-    if( lastTag && lastTag.value.nodeType === 'comment' ){
+    if( lastTag && lastTag.value.nodeType === 'comment' ) {
       lastTag.value.nodeValue += data
 
       return
     }
 
-    const comment = EntityNode( 'comment', { nodeValue: data } )
+    const comment = EntityNode( 'comment', { nodeValue: data })
 
     addDomElement( handler, comment )
     tagStack.push( comment )
@@ -133,11 +133,11 @@ const Api = handler => {
 const findPreviousText = handler => {
   const { tagStack, dom } = handler.state
 
-  if( tagStack.length ){
+  if( tagStack.length ) {
     const lastTag = tagStack[ tagStack.length - 1 ]
     const children = lastTag.children
 
-    if( children.length ){
+    if( children.length ) {
       const lastChild = children[ children.length - 1 ]
 
       if( lastChild.value.nodeType === 'text' ) return lastChild

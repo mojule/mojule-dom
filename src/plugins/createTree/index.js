@@ -20,7 +20,7 @@ const createTreeFromStr = fn => {
 
   createTree.def = originalCreateTree.def
 
-  return Object.assign( fn, { createTree } )
+  return Object.assign( fn, { createTree })
 }
 
 module.exports = createTreeFromStr

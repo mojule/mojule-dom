@@ -10,7 +10,7 @@ const element = fn => {
 
     const nodeValue = fn.value( node )
 
-    if( typeof attributeMap === 'object' ){
+    if( typeof attributeMap === 'object' ) {
       Object.keys( attributeMap ).forEach( attributeName => {
         const attributeValue = attributeMap[ attributeName ]
 
@@ -36,7 +36,7 @@ const element = fn => {
 
     const nodeValue = fn.value( node )
 
-    if( value !== undefined ){
+    if( value !== undefined ) {
       nodeValue.tagName = value
 
       fn.value( node, nodeValue )
@@ -57,7 +57,7 @@ const element = fn => {
 
     const nodeValue = fn.value( node )
 
-    if( value !== undefined ){
+    if( value !== undefined ) {
       if( nodeValue.attributes === undefined ) nodeValue.attributes = {}
 
       nodeValue.attributes[ name ] = value.toString()
@@ -212,7 +212,7 @@ const element = fn => {
     if( typeof shouldHave !== 'boolean' )
       return fn.toggleClass( node, className, !alreadyHas )
 
-    if( alreadyHas ){
+    if( alreadyHas ) {
       if( shouldHave ) return node
 
       return fn.removeClass( node, className )
