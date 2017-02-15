@@ -1,6 +1,6 @@
 'use strict';
 
-var Mtree = require('1tree-factory');
+var TreeFactory = require('1tree-factory');
 
 var createTree = require('./plugins/createTree');
 var insertBefore = require('./plugins/insertBefore');
@@ -11,11 +11,11 @@ var stringify = require('./plugins/stringify');
 var types = require('./plugins/types');
 var vdom = require('./plugins/vdom');
 
-var Htree = Mtree(dom, parse, select, stringify, types, vdom);
+var DomTree = TreeFactory(dom, parse, select, stringify, types, vdom);
 
 // add afterwards because the original createTree doesn't exist until now
-Htree.plugin(createTree);
+DomTree.plugin(createTree);
 // add afterwards so that it wraps parentMap and not the other way round
-Htree.plugin(insertBefore);
+DomTree.plugin(insertBefore);
 
-module.exports = Htree;
+module.exports = DomTree;

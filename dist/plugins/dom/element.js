@@ -187,6 +187,29 @@ var element = function element(fn) {
     categories: ['dom', 'addClass', 'plugins']
   };
 
+  var addClasses = function addClasses(node) {
+    for (var _len = arguments.length, classNames = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      classNames[_key - 1] = arguments[_key];
+    }
+
+    fn.assertElement(node);
+
+    var existing = fn.classNames(node);
+
+    existing.push.apply(existing, classNames);
+
+    fn.attr(node, 'class', existing.join(' '));
+
+    return node;
+  };
+
+  addClasses.def = {
+    argTypes: ['node', '...string'],
+    returnType: 'node',
+    requires: ['classNames', 'attr', 'assertElement'],
+    categories: ['dom', 'addClasses', 'plugins']
+  };
+
   var removeClass = function removeClass(node, className) {
     fn.assertElement(node);
 
@@ -235,7 +258,7 @@ var element = function element(fn) {
 
   var plugins = {
     attributes: attributes, attr: attr, hasAttr: hasAttr, removeAttr: removeAttr, classNames: classNames, hasClass: hasClass, addClass: addClass,
-    removeClass: removeClass, toggleClass: toggleClass, tagName: tagName, clearAttrs: clearAttrs, clearClasses: clearClasses
+    removeClass: removeClass, toggleClass: toggleClass, tagName: tagName, clearAttrs: clearAttrs, clearClasses: clearClasses, addClasses: addClasses
   };
 
   return Object.assign(fn, plugins);
