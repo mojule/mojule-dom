@@ -185,6 +185,26 @@ const element = fn => {
     categories: [ 'dom', 'addClass', 'plugins' ]
   }
 
+
+  const addClasses = ( node, ...classNames ) => {
+    fn.assertElement( node )
+
+    const existing = fn.classNames( node )
+
+    existing.push( ...classNames )
+
+    fn.attr( node, 'class', existing.join( ' ' ) )
+
+    return node
+  }
+
+  addClasses.def = {
+    argTypes: [ 'node', '...string' ],
+    returnType: 'node',
+    requires: [ 'classNames', 'attr', 'assertElement' ],
+    categories: [ 'dom', 'addClasses', 'plugins' ]
+  }
+
   const removeClass = ( node, className ) => {
     fn.assertElement( node )
 
@@ -232,7 +252,7 @@ const element = fn => {
 
   const plugins = {
     attributes, attr, hasAttr, removeAttr, classNames, hasClass, addClass,
-    removeClass, toggleClass, tagName, clearAttrs, clearClasses
+    removeClass, toggleClass, tagName, clearAttrs, clearClasses, addClasses
   }
 
   return Object.assign( fn, plugins )
