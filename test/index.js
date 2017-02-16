@@ -40,4 +40,15 @@ describe( 'mojule-dom', () => {
 
     assert.equal( strongs.length, 2 )
   })
+
+  it( 'adds classes', () => {
+    const dom = Dom( '<div></div>' )
+    const div = dom.select( 'div' )
+
+    div.addClasses( 'a', 'b' )
+
+    const classNames = div.classNames()
+
+    assert.deepEqual( classNames, [ 'a', 'b' ] )
+  })
 })
