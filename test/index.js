@@ -42,13 +42,20 @@ describe( 'mojule-dom', () => {
   })
 
   it( 'adds classes', () => {
-    const dom = Dom( '<div></div>' )
-    const div = dom.select( 'div' )
+    const div = Dom( '<div></div>' )
 
     div.addClasses( 'a', 'b' )
 
     const classNames = div.classNames()
 
     assert.deepEqual( classNames, [ 'a', 'b' ] )
+  })
+
+  it( 'creates a fragment when no args', () => {
+    const dom = Dom()
+
+    const nodeType = dom.nodeType()
+
+    assert.equal( nodeType, 'documentFragment' )
   })
 })

@@ -7,7 +7,19 @@ const parse = str => {
   const handler = DomHandler()
   new htmlparser2.Parser( handler ).end( str )
 
-  return handler.getDom()
+  const dom = handler.getDom()
+
+  const { value, children } = dom
+  const { nodeType } = value
+
+  const isSingleElement =
+    nodeType === 'documentFragment' &&
+    children.length === 1
+
+  if( isSingleElement )
+    return children[ 0 ]
+
+  return dom
 }
 
 module.exports = parse

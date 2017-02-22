@@ -14,6 +14,8 @@ var createTreeFromStr = function createTreeFromStr(fn) {
   var createTree = function createTree(rootValue) {
     if (typeof rootValue === 'string') rootValue = parseStr(rootValue);
 
+    if (rootValue === undefined) rootValue = fn.createDocumentFragment();
+
     return originalCreateTree(rootValue);
   };
 

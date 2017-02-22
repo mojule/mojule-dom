@@ -15,6 +15,9 @@ const createTreeFromStr = fn => {
     if( typeof rootValue === 'string' )
       rootValue = parseStr( rootValue )
 
+    if( rootValue === undefined )
+      rootValue = fn.createDocumentFragment()
+
     return originalCreateTree( rootValue )
   }
 

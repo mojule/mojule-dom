@@ -1,12 +1,13 @@
 {
   "name": "mojule-dom",
-  "version": "0.1.25",
+  "version": "0.2.0",
   "description": "A full virtual dom toolkit for working with HTML nodes etc",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "dependencies": {
+    "1tree": "^0.4.13",
     "1tree-factory": "^0.1.14",
     "css-select": "^1.3.0-rc0",
     "css-select-base-adapter": "^0.1.0",
