@@ -85,11 +85,11 @@ const create = fn => {
 
   createText.def = createDomNodeDef( 'text', [ 'string' ] )
 
-  const createDocumentType = ( name, publicId, systemId ) =>
+  const createDocumentType = ( name, publicId = '', systemId = '' ) =>
     createDomNode( fn, 'documentType', { name, publicId, systemId })
 
   createDocumentType.def =
-    createDomNodeDef( 'documentType', [ 'string', 'string', 'string' ] )
+    createDomNodeDef( 'documentType', [ 'string', 'string?', 'string?' ] )
 
   const plugins = {
     createText, createElement, createComment, createDocument,

@@ -98,11 +98,13 @@ var create = function create(fn) {
 
   createText.def = createDomNodeDef('text', ['string']);
 
-  var createDocumentType = function createDocumentType(name, publicId, systemId) {
+  var createDocumentType = function createDocumentType(name) {
+    var publicId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    var systemId = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
     return createDomNode(fn, 'documentType', { name: name, publicId: publicId, systemId: systemId });
   };
 
-  createDocumentType.def = createDomNodeDef('documentType', ['string', 'string', 'string']);
+  createDocumentType.def = createDomNodeDef('documentType', ['string', 'string?', 'string?']);
 
   var plugins = {
     createText: createText, createElement: createElement, createComment: createComment, createDocument: createDocument,

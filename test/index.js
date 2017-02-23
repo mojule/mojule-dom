@@ -64,4 +64,11 @@ describe( 'mojule-dom', () => {
 
     assert.equal( nodeType, 'comment' )
   })
+
+  it( 'creates a doctype with just first arg', () => {
+    const doctype = Dom( Dom.createDocumentType( 'html' ) )
+    const nodeType = doctype.nodeType()
+
+    assert.equal( nodeType, 'documentType' )
+  })
 })
