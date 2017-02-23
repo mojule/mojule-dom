@@ -71,7 +71,9 @@ var create = function create(fn) {
   createElement.def = createDomNodeDef('element', ['string', 'object']);
 
   var createComment = function createComment(nodeValue) {
-    return createDomNode(fn, 'element', { nodeValue: nodeValue });
+    return createDomNode(fn, 'comment', {
+      nodeValue: String(nodeValue)
+    });
   };
 
   createComment.def = createDomNodeDef('comment', ['string']);

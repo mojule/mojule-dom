@@ -53,9 +53,15 @@ describe( 'mojule-dom', () => {
 
   it( 'creates a fragment when no args', () => {
     const dom = Dom()
-
     const nodeType = dom.nodeType()
 
     assert.equal( nodeType, 'documentFragment' )
+  })
+
+  it( 'creates a comment', () => {
+    const dom = Dom( Dom.createComment( 'hello' ) )
+    const nodeType = dom.nodeType()
+
+    assert.equal( nodeType, 'comment' )
   })
 })

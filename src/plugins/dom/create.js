@@ -64,7 +64,9 @@ const create = fn => {
   createElement.def = createDomNodeDef( 'element', [ 'string', 'object' ] )
 
   const createComment = nodeValue =>
-    createDomNode( fn, 'element', { nodeValue })
+    createDomNode( fn, 'comment', {
+      nodeValue: String( nodeValue )
+    })
 
   createComment.def = createDomNodeDef( 'comment', [ 'string' ] )
 
