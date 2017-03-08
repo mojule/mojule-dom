@@ -4,7 +4,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var utils = require('mojule-utils');
 
-var clone = utils.clone;
+var clone = utils.clone,
+    camelCaseToHyphenated = utils.camelCaseToHyphenated,
+    hyphenatedToCamelCase = utils.hyphenatedToCamelCase;
 
 
 var element = function element(fn) {
@@ -27,6 +29,48 @@ var element = function element(fn) {
   };
 
   attributes.def = {
+    argTypes: ['node', 'object?'],
+    returnType: 'object',
+    requires: ['value', 'assertElement', 'attr'],
+    categories: ['dom', 'attributes', 'plugins']
+  };
+
+  var dataset = function dataset(node, datasetMap) {
+    fn.assertElement(node);
+
+    var nodeValue = fn.value(node);
+    var attributes = nodeValue.attributes;
+
+
+    if ((typeof datasetMap === 'undefined' ? 'undefined' : _typeof(datasetMap)) === 'object') {
+      Object.keys(datasetMap).forEach(function (mapKey) {
+        var dataKey = 'data-' + camelCaseToHyphenated(mapKey);
+        var value = datasetMap[mapKey];
+
+        fn.attr(node, dataKey, value);
+      });
+    }
+
+    if (attributes === undefined) return {};
+
+    var attributeKeys = Object.keys(attributes);
+    var dataKeys = attributeKeys.filter(function (key) {
+      return key.startsWith('data-');
+    });
+
+    var dataset = dataKeys.reduce(function (set, dataKey) {
+      var prefixRemoved = dataKey.slice('data-'.length);
+      var camelCased = hyphenatedToCamelCase(prefixRemoved);
+
+      set[camelCased] = attributes[dataKey];
+
+      return set;
+    }, {});
+
+    return dataset;
+  };
+
+  dataset.def = {
     argTypes: ['node', 'object?'],
     returnType: 'object',
     requires: ['value', 'assertElement', 'attr'],
@@ -258,7 +302,8 @@ var element = function element(fn) {
 
   var plugins = {
     attributes: attributes, attr: attr, hasAttr: hasAttr, removeAttr: removeAttr, classNames: classNames, hasClass: hasClass, addClass: addClass,
-    removeClass: removeClass, toggleClass: toggleClass, tagName: tagName, clearAttrs: clearAttrs, clearClasses: clearClasses, addClasses: addClasses
+    removeClass: removeClass, toggleClass: toggleClass, tagName: tagName, clearAttrs: clearAttrs, clearClasses: clearClasses, addClasses: addClasses,
+    dataset: dataset
   };
 
   return Object.assign(fn, plugins);

@@ -71,4 +71,29 @@ describe( 'mojule-dom', () => {
 
     assert.equal( nodeType, 'documentType' )
   })
+
+  it( 'can get and set a dataset', () => {
+    const div = Dom( '<div></div>' )
+
+    div.attr( 'data-cool-story', 'bro' )
+
+    assert.deepEqual( div.dataset(), {
+      coolStory: 'bro'
+    })
+
+    const model = {
+      superCoolStoryBro: 'thanks',
+      noWorries: 'mate'
+    }
+
+    div.dataset( model )
+
+    const expect = {
+      coolStory: 'bro',
+      superCoolStoryBro: 'thanks',
+      noWorries: 'mate'
+    }
+
+    assert.deepEqual( div.dataset(), expect )
+  })
 })

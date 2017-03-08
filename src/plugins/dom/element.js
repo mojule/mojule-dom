@@ -2,7 +2,7 @@
 
 const utils = require( 'mojule-utils' )
 
-const { clone } = utils
+const { clone, camelCaseToHyphenated, hyphenatedToCamelCase } = utils
 
 const element = fn => {
   const attributes = ( node, attributeMap ) => {
@@ -25,6 +25,46 @@ const element = fn => {
   }
 
   attributes.def = {
+    argTypes: [ 'node', 'object?' ],
+    returnType: 'object',
+    requires: [ 'value', 'assertElement', 'attr' ],
+    categories: [ 'dom', 'attributes', 'plugins' ]
+  }
+
+  const dataset = ( node, datasetMap ) => {
+    fn.assertElement( node )
+
+    const nodeValue = fn.value( node )
+    const { attributes } = nodeValue
+
+    if( typeof datasetMap === 'object' ){
+      Object.keys( datasetMap ).forEach( mapKey => {
+        const dataKey = 'data-' + camelCaseToHyphenated( mapKey )
+        const value = datasetMap[ mapKey ]
+
+        fn.attr( node, dataKey, value )
+      })
+    }
+
+    if( attributes === undefined )
+      return {}
+
+    const attributeKeys = Object.keys( attributes )
+    const dataKeys = attributeKeys.filter( key => key.startsWith( 'data-' ) )
+
+    const dataset = dataKeys.reduce( ( set, dataKey ) => {
+      const prefixRemoved = dataKey.slice( 'data-'.length )
+      const camelCased = hyphenatedToCamelCase( prefixRemoved )
+
+      set[ camelCased ] = attributes[ dataKey ]
+
+      return set
+    }, {} )
+
+    return dataset
+  }
+
+  dataset.def = {
     argTypes: [ 'node', 'object?' ],
     returnType: 'object',
     requires: [ 'value', 'assertElement', 'attr' ],
@@ -252,7 +292,8 @@ const element = fn => {
 
   const plugins = {
     attributes, attr, hasAttr, removeAttr, classNames, hasClass, addClass,
-    removeClass, toggleClass, tagName, clearAttrs, clearClasses, addClasses
+    removeClass, toggleClass, tagName, clearAttrs, clearClasses, addClasses,
+    dataset
   }
 
   return Object.assign( fn, plugins )
