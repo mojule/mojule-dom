@@ -34,6 +34,18 @@ describe( 'mojule-dom', () => {
     assert.equal( typeof html, 'string' )
   })
 
+
+  it( 'selects self', () => {
+    const dom = Dom( '<strong>Hello</strong>' )
+    const strong = dom.select( 'strong' )
+
+    assert( strong )
+
+    const html = strong.stringify()
+
+    assert.equal( html, '<strong>Hello</strong>' )
+  })
+
   it( 'selects all', () => {
     const dom = Dom( '<p><strong>Hello</strong>, <strong>World</strong>!</p>' )
     const strongs = dom.selectAll( 'strong' )
