@@ -32,15 +32,15 @@ const Vnode = node => {
     },
 
     get value(){
-      return node.getValue( 'value' )
+      return node.getAttr( 'value' )
     },
 
     get selected(){
-      return !!node.getValue( 'selected' )
+      return !!node.getAttr( 'selected' )
     },
 
     get disabled(){
-      return !!node.getValue( 'disabled' )
+      return !!node.getAttr( 'disabled' )
     },
 
     // should be something for svg or math etc.!
