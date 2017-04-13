@@ -1,21 +1,28 @@
 'use strict';
 
-var TreeFactory = require('1tree-factory');
+var is = require('@mojule/is');
+var TreeFactory = require('@mojule/tree').Factory;
+var domPlugins = require('@mojule/dom-plugins');
+var defaultPlugins = require('./plugins');
 
-var createTree = require('./plugins/createTree');
-var insertBefore = require('./plugins/insertBefore');
-var dom = require('./plugins/dom');
-var parse = require('./plugins/parse');
-var select = require('./plugins/select');
-var stringify = require('./plugins/stringify');
-var types = require('./plugins/types');
-var vdom = require('./plugins/vdom');
+var Factory = function Factory() {
+  for (var _len = arguments.length, plugins = Array(_len), _key = 0; _key < _len; _key++) {
+    plugins[_key] = arguments[_key];
+  }
 
-var DomTree = TreeFactory(dom, parse, select, stringify, types, vdom);
+  var options = {};
 
-// add afterwards because the original createTree doesn't exist until now
-DomTree.plugin(createTree);
-// add afterwards so that it wraps parentMap and not the other way round
-DomTree.plugin(insertBefore);
+  if (plugins.length > 0 && is.object(plugins[plugins.length - 1])) options = plugins.pop();
 
-module.exports = DomTree;
+  if (plugins.length === 1 && is.array(plugins[0])) plugins = plugins[0];
+
+  plugins = domPlugins.concat(defaultPlugins).concat(plugins);
+
+  return TreeFactory(plugins, options);
+};
+
+var VDom = Factory();
+
+Object.assign(VDom, { Factory: Factory });
+
+module.exports = VDom;

@@ -1,21 +1,26 @@
 'use strict'
 
-const TreeFactory = require( '1tree-factory' )
+const is = require( '@mojule/is' )
+const TreeFactory = require( '@mojule/tree' ).Factory
+const domPlugins = require( '@mojule/dom-plugins' )
+const defaultPlugins = require( './plugins' )
 
-const createTree = require( './plugins/createTree' )
-const insertBefore = require( './plugins/insertBefore' )
-const dom = require( './plugins/dom' )
-const parse = require( './plugins/parse' )
-const select = require( './plugins/select' )
-const stringify = require( './plugins/stringify' )
-const types = require( './plugins/types' )
-const vdom = require( './plugins/vdom' )
+const Factory = ( ...plugins ) => {
+  let options = {}
 
-const DomTree = TreeFactory( dom, parse, select, stringify, types, vdom )
+  if( plugins.length > 0 && is.object( plugins[ plugins.length - 1 ] ) )
+    options = plugins.pop()
 
-// add afterwards because the original createTree doesn't exist until now
-DomTree.plugin( createTree )
-// add afterwards so that it wraps parentMap and not the other way round
-DomTree.plugin( insertBefore )
+  if( plugins.length === 1 && is.array( plugins[ 0 ] ) )
+    plugins = plugins[ 0 ]
 
-module.exports = DomTree
+  plugins = domPlugins.concat( defaultPlugins ).concat( plugins )
+
+  return TreeFactory( plugins, options )
+}
+
+const VDom = Factory()
+
+Object.assign( VDom, { Factory } )
+
+module.exports = VDom
