@@ -1,9 +1,18 @@
 'use strict';
 
+var is = require('@mojule/is');
+
+var nodeTypes = {
+  element: 1,
+  text: 3,
+  comment: 8,
+  document: 9,
+  documentType: 10,
+  documentFragment: 11
+};
+
 var Vnode = function Vnode(node) {
-  if (node === null || node === undefined) {
-    return node;
-  }
+  if (is.null(node) || is.undefined(node)) return node;
 
   var vnode = {
     get firstChild() {
@@ -15,7 +24,7 @@ var Vnode = function Vnode(node) {
     },
 
     get nodeType() {
-      return node.nodeType();
+      return nodeTypes[node.nodeType()];
     },
 
     get nodeName() {
@@ -31,22 +40,38 @@ var Vnode = function Vnode(node) {
       return node.nodeValue();
     },
 
+    get attributes() {
+      var attributes = node.attributes();
+      var names = Object.keys(attributes);
+
+      return names.map(function (name) {
+        return {
+          name: name,
+          value: attributes[name]
+        };
+      });
+    },
+
     get value() {
-      return node.getValue('value');
+      return node.getAttr('value');
     },
 
     get selected() {
-      return !!node.getValue('selected');
+      return !!node.getAttr('selected');
     },
 
     get disabled() {
-      return !!node.getValue('disabled');
+      return !!node.getAttr('disabled');
     },
 
     // should be something for svg or math etc.!
     // hasAttributeNS: ( namespaceURI, name ) => {
     hasAttributeNS: function hasAttributeNS(namespaceURI) {
       return namespaceURI === vnode.namespaceURI;
+    },
+
+    getAttributeNode: function getAttributeNode(namespaceURI, name) {
+      return node.hasAttr(name);
     },
 
     assignAttributes: function assignAttributes(targetNode) {
@@ -75,13 +100,13 @@ var addChildren = function addChildren(document, el, vnode) {
 };
 
 var _actualize = {
-  text: function text(document, vnode) {
+  3: function _(document, vnode) {
     return document.createTextNode(vnode.nodeValue);
   },
-  comment: function comment(document, vnode) {
+  8: function _(document, vnode) {
     return document.createComment(vnode.nodeValue);
   },
-  element: function element(document, vnode) {
+  1: function _(document, vnode) {
     var el = document.createElement(vnode.nodeName);
 
     vnode.assignAttributes(el);
@@ -90,7 +115,7 @@ var _actualize = {
 
     return el;
   },
-  documentFragment: function documentFragment(document, vnode) {
+  11: function _(document, vnode) {
     var el = document.createDocumentFragment();
 
     addChildren(document, el, vnode);

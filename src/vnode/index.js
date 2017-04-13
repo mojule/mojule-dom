@@ -1,10 +1,20 @@
 'use strict'
 
-const Vnode = node => {
-  if( node === null || node === undefined ){
-    return node
-  }
+const is = require( '@mojule/is' )
 
+const nodeTypes = {
+  element: 1,
+  text: 3,
+  comment: 8,
+  document: 9,
+  documentType: 10,
+  documentFragment: 11
+}
+
+const Vnode = node => {
+  if( is.null( node ) || is.undefined( node ) )
+    return node
+  
   const vnode = {
     get firstChild(){
       return Vnode( node.firstChild() )
@@ -15,7 +25,7 @@ const Vnode = node => {
     },
 
     get nodeType(){
-      return node.nodeType()
+      return nodeTypes[ node.nodeType() ]
     },
 
     get nodeName(){
@@ -29,6 +39,16 @@ const Vnode = node => {
 
     get nodeValue(){
       return node.nodeValue()
+    },
+
+    get attributes(){
+      const attributes = node.attributes()
+      const names = Object.keys( attributes )
+
+      return names.map( name => ({
+        name,
+        value: attributes[ name ]
+      }))
     },
 
     get value(){
@@ -47,6 +67,8 @@ const Vnode = node => {
     // hasAttributeNS: ( namespaceURI, name ) => {
     hasAttributeNS: namespaceURI =>
       namespaceURI === vnode.namespaceURI,
+
+    getAttributeNode: ( namespaceURI, name ) => node.hasAttr( name ),
 
     assignAttributes: targetNode => {
       const attributes = node.attributes()
@@ -72,9 +94,9 @@ const addChildren = ( document, el, vnode ) => {
 }
 
 const actualize = {
-  text: ( document, vnode ) => document.createTextNode( vnode.nodeValue ),
-  comment: ( document, vnode ) => document.createComment( vnode.nodeValue ),
-  element: ( document, vnode ) => {
+  3: ( document, vnode ) => document.createTextNode( vnode.nodeValue ),
+  8: ( document, vnode ) => document.createComment( vnode.nodeValue ),
+  1: ( document, vnode ) => {
     const el = document.createElement( vnode.nodeName )
 
     vnode.assignAttributes( el )
@@ -83,7 +105,7 @@ const actualize = {
 
     return el
   },
-  documentFragment: ( document, vnode ) => {
+  11: ( document, vnode ) => {
     const el = document.createDocumentFragment()
 
     addChildren( document, el, vnode )

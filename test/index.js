@@ -189,7 +189,7 @@ describe( 'mojule-dom', () => {
       const el = div()
       const vnode = el.vnode()
 
-      assert.equal( vnode.nodeType, 'element' )
+      assert.equal( vnode.nodeType, 1 )
     })
 
     it( 'nodeName', () => {
@@ -242,5 +242,28 @@ describe( 'mojule-dom', () => {
 
       assert.equal( vnode.hasAttributeNS( 'http://www.w3.org/1999/xhtml' ), true )
     })    
+  })
+
+  describe( 'morphdom', () => {
+    const document = require( 'jsdom' ).jsdom( '<html><body><div id="main"></div></body></html>' )
+    const main = document.querySelector( '#main' )
+
+    const {
+      div, p, strong, input, comment, documentFragment
+    } = VDom.h
+
+    it( 'morphs to dom node', () => {
+      const vMain = div({id:'main'},
+        documentFragment(
+          comment('Hello')
+        ),        
+        p('The quick brown fox jumps over the ',strong('lazy dog')),
+        input({type:'text',name:'firstName',placeholder:'Alex'})
+      )
+
+      vMain.morphdom( main )
+
+      assert.equal( main.outerHTML, '<div id="main"><!--Hello--><p>The quick brown fox jumps over the <strong>lazy dog</strong></p><input type="text" name="firstName" placeholder="Alex"></div>' )
+    })
   })
 })
