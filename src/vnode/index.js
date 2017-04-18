@@ -14,7 +14,7 @@ const nodeTypes = {
 const Vnode = node => {
   if( is.null( node ) || is.undefined( node ) )
     return node
-  
+
   const vnode = {
     get firstChild(){
       return Vnode( node.firstChild() )
@@ -66,7 +66,7 @@ const Vnode = node => {
     // should be something for svg or math etc.!
     // hasAttributeNS: ( namespaceURI, name ) => {
     hasAttributeNS: namespaceURI =>
-      namespaceURI === vnode.namespaceURI,
+      is.null( namespaceURI ) || namespaceURI === vnode.namespaceURI,
 
     getAttributeNode: ( namespaceURI, name ) => node.hasAttr( name ),
 

@@ -67,7 +67,7 @@ var Vnode = function Vnode(node) {
     // should be something for svg or math etc.!
     // hasAttributeNS: ( namespaceURI, name ) => {
     hasAttributeNS: function hasAttributeNS(namespaceURI) {
-      return namespaceURI === vnode.namespaceURI;
+      return is.null(namespaceURI) || namespaceURI === vnode.namespaceURI;
     },
 
     getAttributeNode: function getAttributeNode(namespaceURI, name) {
