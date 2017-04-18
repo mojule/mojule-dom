@@ -1,6 +1,6 @@
 {
   "name": "@mojule/vdom",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A virtual dom built on @mojule/tree",
   "main": "index.js",
   "scripts": {

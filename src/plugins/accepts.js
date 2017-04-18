@@ -8,6 +8,10 @@ const accepts = node => {
 
   return {
     accepts: child => {
+      // any node should accept a whitespace only text node?
+      if( child.isText() && child.getText().trim() === '' )
+        return true
+
       const from = node.nodeName()
       const to = child.nodeName()
       const isAccepts = html.accepts( from, to )

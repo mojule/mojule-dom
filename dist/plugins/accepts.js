@@ -9,6 +9,9 @@ var accepts = function accepts(node) {
 
   return {
     accepts: function accepts(child) {
+      // any node should accept a whitespace only text node?
+      if (child.isText() && child.getText().trim() === '') return true;
+
       var from = node.nodeName();
       var to = child.nodeName();
       var isAccepts = html.accepts(from, to);
