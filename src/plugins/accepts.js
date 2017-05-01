@@ -9,7 +9,7 @@ const accepts = node => {
   return {
     accepts: child => {
       // any node should accept a whitespace only text node?
-      if( child.isText() && child.getText().trim() === '' )
+      if( !node.isEmpty() && child.isText() && child.getText().trim() === '' )
         return true
 
       const from = node.nodeName()

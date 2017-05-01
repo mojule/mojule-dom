@@ -9,7 +9,7 @@
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "dependencies": {
-    "@mojule/dom-plugins": "^0.1.5",
+    "@mojule/dom-plugins": "^0.1.7",
     "@mojule/html": "^0.2.4",
     "@mojule/is": "^0.1.2",
     "@mojule/tree": "^0.6.3",

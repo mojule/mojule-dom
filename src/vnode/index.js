@@ -108,7 +108,9 @@ const actualize = {
   3: ( document, vnode ) => document.createTextNode( vnode.nodeValue ),
   8: ( document, vnode ) => document.createComment( vnode.nodeValue ),
   9: ( document, vnode ) => {
-    const doc = document.implementation.createDocument()
+    const doc = document.implementation.createDocument(
+      'http://www.w3.org/1999/xhtml', 'html'
+    )
 
     while( doc.firstChild )
       doc.removeChild( doc.firstChild )

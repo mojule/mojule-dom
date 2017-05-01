@@ -74,6 +74,19 @@ describe( 'mojule-dom', () => {
       assert( node.accepts( text ) )
     })
 
+    it( 'accepts whitespace in any node', () => {
+      const text = Vdom.createText( '\n' )
+      const doc = Vdom.createDocument()
+      const html = Vdom.createElement( 'html' )
+      const body = Vdom.createElement( 'body' )
+      const table = Vdom.createElement( 'table' )
+
+      assert( doc.accepts( text ) )
+      assert( html.accepts( text ) )
+      assert( body.accepts( text ) )
+      assert( table.accepts( text ) )
+    })
+
     it( 'categories', () => {
       const div = Vdom( '<div></div>' )
       const categories = div.categories()
@@ -283,13 +296,25 @@ describe( 'mojule-dom', () => {
       // round trip it
       const document = require( 'jsdom' ).jsdom( '<body></body>' )
       const doc = Vdom( htmlStr )
-      console.log( doc.get() )
-
       const dom = doc.actualize( document )
       const tree = Vdom.virtualize( dom )
       const str = tree.stringify()
 
       assert.equal( htmlStr, str )
+
+      //don't forget document, which the parse won't create
+      const doc2 = Vdom.createDocument()
+      const docType = Vdom.createDocumentType( 'html' )
+      const html = doc.querySelector( 'html' )
+
+      doc2.append( docType )
+      doc2.append( html )
+
+      const dom2 = doc2.actualize( document )
+      const tree2 = Vdom.virtualize( dom2 )
+      const str2 = tree2.stringify()
+
+      assert.equal( htmlStr, str2 )
     })
   })
 })
