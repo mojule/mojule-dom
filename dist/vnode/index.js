@@ -82,6 +82,10 @@ var Vnode = function Vnode(node) {
       });
     },
 
+    treeNode: function treeNode() {
+      return node;
+    },
+
     actualize: function actualize(document) {
       return _actualize[vnode.nodeType](document, vnode);
     }
@@ -100,12 +104,6 @@ var addChildren = function addChildren(document, el, vnode) {
 };
 
 var _actualize = {
-  3: function _(document, vnode) {
-    return document.createTextNode(vnode.nodeValue);
-  },
-  8: function _(document, vnode) {
-    return document.createComment(vnode.nodeValue);
-  },
   1: function _(document, vnode) {
     var el = document.createElement(vnode.nodeName);
 
@@ -114,6 +112,33 @@ var _actualize = {
     addChildren(document, el, vnode);
 
     return el;
+  },
+  3: function _(document, vnode) {
+    return document.createTextNode(vnode.nodeValue);
+  },
+  8: function _(document, vnode) {
+    return document.createComment(vnode.nodeValue);
+  },
+  9: function _(document, vnode) {
+    var doc = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html');
+
+    while (doc.firstChild) {
+      doc.removeChild(doc.firstChild);
+    }addChildren(document, doc, vnode);
+
+    return doc;
+  },
+  10: function _(document, vnode) {
+    var treeNode = vnode.treeNode();
+
+    var _treeNode$getValue = treeNode.getValue(),
+        name = _treeNode$getValue.name,
+        publicId = _treeNode$getValue.publicId,
+        systemId = _treeNode$getValue.systemId;
+
+    var doctype = document.implementation.createDocumentType(name, publicId, systemId);
+
+    return doctype;
   },
   11: function _(document, vnode) {
     var el = document.createDocumentFragment();
