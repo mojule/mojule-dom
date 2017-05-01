@@ -78,6 +78,8 @@ const Vnode = node => {
       )
     },
 
+    treeNode: () => node,
+
     actualize: document => actualize[ vnode.nodeType ]( document, vnode )
   }
 
@@ -94,8 +96,6 @@ const addChildren = ( document, el, vnode ) => {
 }
 
 const actualize = {
-  3: ( document, vnode ) => document.createTextNode( vnode.nodeValue ),
-  8: ( document, vnode ) => document.createComment( vnode.nodeValue ),
   1: ( document, vnode ) => {
     const el = document.createElement( vnode.nodeName )
 
@@ -104,6 +104,26 @@ const actualize = {
     addChildren( document, el, vnode )
 
     return el
+  },
+  3: ( document, vnode ) => document.createTextNode( vnode.nodeValue ),
+  8: ( document, vnode ) => document.createComment( vnode.nodeValue ),
+  9: ( document, vnode ) => {
+    const doc = document.implementation.createDocument()
+
+    while( doc.firstChild )
+      doc.removeChild( doc.firstChild )
+
+    addChildren( document, doc, vnode )
+
+    return doc
+  },
+  10: ( document, vnode ) => {
+    const treeNode = vnode.treeNode()
+    const { name, publicId, systemId } = treeNode.getValue()
+
+    const doctype = document.implementation.createDocumentType( name, publicId, systemId )
+
+    return doctype
   },
   11: ( document, vnode ) => {
     const el = document.createDocumentFragment()

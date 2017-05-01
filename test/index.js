@@ -2,7 +2,10 @@
 
 const assert = require( 'assert' )
 const is = require( '@mojule/is' )
-const VDom = require( '../src' )
+const { Factory } = require( '../src' )
+const Vdom = Factory( { exposeState: true } )
+
+const htmlStr = '<!doctype html><html><head><meta charset="utf-8" /><title>Hello World!</title></head><body><!--Whose line is it anyway?--><div id="main"><p>The quick brown fox jumps over the <strong>lazy dog</strong></p><input type="text" name="firstName" placeholder="Alex" /></div><!--Fragment not (usually) necessary but make sure it works--><!--Text not necessary but etc.--><p>lol wut</p><!--But what if it is not in the spec?--><customtag class="kk"><p>OK that works for me</p></customtag></body></html>'
 
 describe( 'mojule-dom', () => {
   describe( 'Factory', () => {
@@ -13,10 +16,10 @@ describe( 'mojule-dom', () => {
         }
       }
 
-      const Tree = VDom.Factory( plugin )
+      const Tree = Factory( plugin )
 
       const div = Tree( '<div></div>' )
-      
+
       assert( div.isDiv() )
     })
 
@@ -27,12 +30,12 @@ describe( 'mojule-dom', () => {
         }
       }
 
-      const Tree = VDom.Factory( [ plugin ] )
+      const Tree = Factory( [ plugin ] )
 
       const div = Tree( '<div></div>' )
-      
+
       assert( div.isDiv() )
-    }) 
+    })
 
     it( 'options', () => {
       const plugin = node => {
@@ -41,52 +44,52 @@ describe( 'mojule-dom', () => {
         }
       }
 
-      const Tree = VDom.Factory( plugin, {} )
+      const Tree = Factory( plugin, {} )
 
       const div = Tree( '<div></div>' )
-      
-      assert( div.isDiv() )      
-    })  
+
+      assert( div.isDiv() )
+    })
   })
 
   describe( 'Plugins', () => {
     it( 'accepts', () => {
-      const div = VDom.createElement( 'div' )
-      const p = VDom.createElement( 'p' )
-      const custom = VDom.createElement( 'custom' )
+      const div = Vdom.createElement( 'div' )
+      const p = Vdom.createElement( 'p' )
+      const custom = Vdom.createElement( 'custom' )
 
       assert( div.accepts( p ) )
       assert( custom.accepts( p ) )
     })
 
     it( 'accepts', () => {
-      const div = VDom( '<div></div>' )
-      const text = VDom( 'Hello' )
+      const div = Vdom( '<div></div>' )
+      const text = Vdom( 'Hello' )
 
       assert( div.accepts( text ) )
       assert( !text.accepts( div ) )
 
-      const node = VDom( { nodeType: 'cool' } )
+      const node = Vdom( { nodeType: 'cool' } )
 
       assert( node.accepts( text ) )
     })
 
     it( 'categories', () => {
-      const div = VDom( '<div></div>' )
+      const div = Vdom( '<div></div>' )
       const categories = div.categories()
 
       assert( is.array( categories ) )
       assert( categories.includes( 'flow content' ) )
 
-      const node = VDom( { nodeType: 'cool' } )
+      const node = Vdom( { nodeType: 'cool' } )
 
       assert.deepEqual( node.categories(), [] )
     })
 
     it( 'isEmpty', () => {
-      const div = VDom( '<div></div>' )
-      const img = VDom( '<img src="image.jpg" />' )
-      const node = VDom( { nodeType: 'cool' } )
+      const div = Vdom( '<div></div>' )
+      const img = Vdom( '<img src="image.jpg" />' )
+      const node = Vdom( { nodeType: 'cool' } )
 
       assert( !div.isEmpty() )
       assert( img.isEmpty() )
@@ -94,10 +97,10 @@ describe( 'mojule-dom', () => {
     })
 
     it( 'isModules', () => {
-      const div = VDom( '<div></div>' )
-      const meta = VDom( '<meta charset="utf-8" />' )
-      const text = VDom( 'Hello' )
-      const img = VDom( '<img src="image.jpg" />' )
+      const div = Vdom( '<div></div>' )
+      const meta = Vdom( '<meta charset="utf-8" />' )
+      const text = Vdom( 'Hello' )
+      const img = Vdom( '<img src="image.jpg" />' )
 
       assert( div.isBlock() )
       assert( div.isContainer() )
@@ -110,9 +113,9 @@ describe( 'mojule-dom', () => {
       const {
         document, documentType, text, comment, documentFragment, element,
         html, head, body, meta, title, div, p, strong, input
-      } = VDom.h
+      } = Vdom.h
 
-      const expected = '<!doctype html><html><head><meta charset="utf-8" /><title>Hello World!</title></head><body><!--Whose line is it anyway?--><div id="main"><p>The quick brown fox jumps over the <strong>lazy dog</strong></p><input type="text" name="firstName" placeholder="Alex" /></div><!--Fragment not (usually) necessary but make sure it works--><!--Text not necessary but etc.--><p>lol wut</p><!--But what if it is not in the spec?--><customtag class="kk"><p>OK that works for me</p></customtag></body></html>'
+      const expected = htmlStr
 
       const dom =
         document(
@@ -147,15 +150,15 @@ describe( 'mojule-dom', () => {
 
   describe( 'vnode', () => {
     it( 'creates', () => {
-      const { div } = VDom.h
+      const { div } = Vdom.h
       const el = div()
       const vnode = el.vnode()
-      
+
       assert( vnode )
     })
 
     it( 'firstChild', () => {
-      const { div, p } = VDom.h
+      const { div, p } = Vdom.h
       const el = div()
       const vnode = el.vnode()
 
@@ -167,7 +170,7 @@ describe( 'mojule-dom', () => {
     })
 
     it( 'nextSibiling', () => {
-      const { div, p } = VDom.h
+      const { div, p } = Vdom.h
       const el = div()
       const child1 = p()
       const child2 = p()
@@ -176,7 +179,7 @@ describe( 'mojule-dom', () => {
 
       const vnode = el.vnode()
       const vchild1 = child1.vnode()
-      
+
       assert.equal( undefined, vchild1.nextSibling )
 
       el.append( child2 )
@@ -185,7 +188,7 @@ describe( 'mojule-dom', () => {
     })
 
     it( 'nodeType', () => {
-      const { div } = VDom.h
+      const { div } = Vdom.h
       const el = div()
       const vnode = el.vnode()
 
@@ -193,7 +196,7 @@ describe( 'mojule-dom', () => {
     })
 
     it( 'nodeName', () => {
-      const { div } = VDom.h
+      const { div } = Vdom.h
       const el = div()
       const vnode = el.vnode()
 
@@ -201,7 +204,7 @@ describe( 'mojule-dom', () => {
     })
 
     it( 'namespaceURI', () => {
-      const { div } = VDom.h
+      const { div } = Vdom.h
       const el = div()
       const vnode = el.vnode()
 
@@ -209,39 +212,39 @@ describe( 'mojule-dom', () => {
     })
 
     it( 'nodeValue', () => {
-      const t = VDom.createText( 'Hello' )
+      const t = Vdom.createText( 'Hello' )
       const vnode = t.vnode()
 
       assert.equal( vnode.nodeValue, 'Hello' )
     })
 
     it( 'value', () => {
-      const node = VDom.createElement( 'input', { value: 'hello' } )
+      const node = Vdom.createElement( 'input', { value: 'hello' } )
       const vnode = node.vnode()
 
       assert.equal( vnode.value, 'hello' )
     })
 
     it( 'selected', () => {
-      const node = VDom.createElement( 'input', { selected: true } )
+      const node = Vdom.createElement( 'input', { selected: true } )
       const vnode = node.vnode()
 
       assert.equal( vnode.selected, true )
     })
 
     it( 'disabled', () => {
-      const node = VDom.createElement( 'input', { disabled: true } )
+      const node = Vdom.createElement( 'input', { disabled: true } )
       const vnode = node.vnode()
 
       assert.equal( vnode.disabled, true )
     })
 
     it( 'hasAttributeNS', () => {
-      const node = VDom.createElement( 'input' )
+      const node = Vdom.createElement( 'input' )
       const vnode = node.vnode()
 
       assert.equal( vnode.hasAttributeNS( 'http://www.w3.org/1999/xhtml' ), true )
-    })    
+    })
   })
 
   describe( 'morphdom', () => {
@@ -250,13 +253,13 @@ describe( 'mojule-dom', () => {
 
     const {
       div, p, strong, input, comment, documentFragment
-    } = VDom.h
+    } = Vdom.h
 
     it( 'morphs to dom node', () => {
       const vMain = div({id:'main'},
         documentFragment(
           comment('Hello')
-        ),        
+        ),
         p('The quick brown fox jumps over the ',strong('lazy dog')),
         input({type:'text',name:'firstName',placeholder:'Alex'})
       )
@@ -264,6 +267,29 @@ describe( 'mojule-dom', () => {
       vMain.morphdom( main )
 
       assert.equal( main.outerHTML, '<div id="main"><!--Hello--><p>The quick brown fox jumps over the <strong>lazy dog</strong></p><input type="text" name="firstName" placeholder="Alex"></div>' )
+    })
+  })
+
+  describe( 'actualize/virtualize', () => {
+    it( 'virtualizes', () => {
+      const document = require( 'jsdom' ).jsdom( htmlStr )
+      const tree = Vdom.virtualize( document )
+      const str = tree.stringify()
+
+      assert.equal( htmlStr, str )
+    })
+
+    it( 'actualizes', () => {
+      // round trip it
+      const document = require( 'jsdom' ).jsdom( '<body></body>' )
+      const doc = Vdom( htmlStr )
+      console.log( doc.get() )
+
+      const dom = doc.actualize( document )
+      const tree = Vdom.virtualize( dom )
+      const str = tree.stringify()
+
+      assert.equal( htmlStr, str )
     })
   })
 })
