@@ -155,6 +155,20 @@ console.log( span.accepts( div ) ) // false
 span.append( div ) // throws
 ```
 
+### actualize
+
+Takes a vdom node and turns it into a browser DOM node (or compatible, like
+JSDOM) - just calls node.vnode() under the hood
+
+```javascript
+const span = vdom.createElement( 'span' )
+
+const spanEl = span.actualize( document )
+
+// 'SPAN'
+console.log( spanEl.tagName )
+```
+
 ### categories
 
 Returns an array of content categories (as defined by the HTML spec) for a node
@@ -272,6 +286,18 @@ Allows you to patch a vdom node into the real DOM, via
 [morphdom](https://github.com/patrick-steele-idem/morphdom)
 
 See the browser example above.
+
+### virtualize
+
+Takes a real DOM (or compatible, JSDOM etc) node and turns it into a vdom node
+
+```javascript
+const divEl = document.querySelector( 'div' )
+
+const div = vdom.virtualize( divEl )
+
+// do vdom stuff with div
+```
 
 ### vnode
 
