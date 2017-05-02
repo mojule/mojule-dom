@@ -12,7 +12,7 @@
     "@mojule/dom-plugins": "^0.1.7",
     "@mojule/html": "^0.2.4",
     "@mojule/is": "^0.1.2",
-    "@mojule/tree": "^0.6.3",
+    "@mojule/tree": "^0.6.4",
     "morphdom": "^2.3.2"
   },
   "devDependencies": {
