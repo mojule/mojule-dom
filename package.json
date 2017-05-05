@@ -1,6 +1,6 @@
 {
   "name": "@mojule/vdom",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "A virtual dom built on @mojule/tree",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "@mojule/dom-plugins": "^0.1.7",
     "@mojule/html": "^0.2.4",
     "@mojule/is": "^0.1.2",
-    "@mojule/tree": "^0.6.4",
+    "@mojule/tree": "^0.6.5",
     "morphdom": "^2.3.2"
   },
   "devDependencies": {
