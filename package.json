@@ -1,6 +1,6 @@
 {
   "name": "@mojule/vdom",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "A virtual dom built on @mojule/tree",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "dependencies": {
-    "@mojule/dom-plugins": "^0.1.7",
+    "@mojule/dom-plugins": "^0.1.8",
     "@mojule/html": "^0.2.4",
     "@mojule/is": "^0.1.2",
     "@mojule/tree": "^0.6.5",
