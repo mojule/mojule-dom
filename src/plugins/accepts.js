@@ -14,6 +14,7 @@ const accepts = node => {
 
       const from = node.nodeName()
       const to = child.nodeName()
+
       const isAccepts = html.accepts( from, to )
 
       if( is.undefined( isAccepts ) )
