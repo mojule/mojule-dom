@@ -2,10 +2,6 @@
 
 const registerAttributes = ({ core }) => {
   core.registerAttribute({
-    name: 'value'
-  })
-
-  core.registerAttribute({
     name: 'selected',
     parse: str => str === 'selected',
     stringify: value => value ? 'selected' : ''
