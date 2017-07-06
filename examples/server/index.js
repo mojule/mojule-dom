@@ -1,4 +1,4 @@
-const vdom = require( '../../dist' )
+const vdom = require( '../../src' )
 
 const {
   document, documentType, text, comment, documentFragment, element,
@@ -36,4 +36,4 @@ const lol = dom.querySelector( 'p:not(#main > p)' )
 
 lol.append( text( ' ok' ) )
 
-console.log( dom.stringify() )
+console.log( dom.toString() )
