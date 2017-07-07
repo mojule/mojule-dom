@@ -143,7 +143,7 @@ describe( 'VDOM', () => {
     it( 'virtualizes', () => {
       const document = require( 'jsdom' ).jsdom( htmlStr )
       const tree = VDOM.virtualize( document )
-      const str = tree.stringify()
+      const str = tree.toString()
 
       assert.equal( htmlStr, str )
     })
@@ -154,7 +154,7 @@ describe( 'VDOM', () => {
       const doc = VDOM( htmlStr )
       const dom = doc.actualize( document )
       const tree = VDOM.virtualize( dom )
-      const str = tree.stringify()
+      const str = tree.toString()
 
       assert.equal( htmlStr, str )
 
@@ -168,7 +168,7 @@ describe( 'VDOM', () => {
 
       const dom2 = doc2.actualize( document )
       const tree2 = VDOM.virtualize( dom2 )
-      const str2 = tree2.stringify()
+      const str2 = tree2.toString()
 
       assert.equal( htmlStr, str2 )
     })

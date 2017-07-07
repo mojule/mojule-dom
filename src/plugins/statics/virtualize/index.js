@@ -33,10 +33,10 @@ const virtualize = ({ statics, Api }) => {
   statics.virtualize = el => {
     const node = mappers[ el.nodeType ]( el )
 
-    if( node.firstChild )
+    if( el.firstChild )
       addChildren( el, node )
 
-    return el
+    return node
   }
 }
 
