@@ -8,10 +8,10 @@
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "dependencies": {
-    "@mojule/dom-plugins": "github:mojule/dom-plugins#1.0.0",
+    "@mojule/dom-plugins": "^1.0.0",
     "@mojule/html": "^0.2.4",
     "@mojule/is": "^0.1.2",
-    "@mojule/tree": "github:mojule/tree#1.0.0",
+    "@mojule/tree": "^1.0.0",
     "morphdom": "^2.3.2"
   },
   "devDependencies": {
