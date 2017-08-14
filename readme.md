@@ -6,6 +6,11 @@ A virtual dom built on mojule [tree](https://github.com/mojule/tree) and
 Lets you use the mojule tree API, plugins etc. to work with HTML nodes on the
 server and in the browser
 
+**Important:** this documentation describes a previous version and is out of
+date - additionally, we are currently using JSDOM in derived packages rather
+than VDOM for performance reasons - however the tests are up to date and show
+correct usage
+
 ## Install
 
 `npm install @mojule/vdom`
